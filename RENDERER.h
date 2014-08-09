@@ -26,7 +26,9 @@ public:
     if(_image)
       delete[] _image;
   }
-  VEC3F* image() { return _image; };
+  VEC3F* image() { 
+	return _image; 
+  };
   
   //initialize the renderer: make new image color array, set camera values
   void initialize() {
@@ -37,35 +39,38 @@ public:
   
   //render scene
   void render(SCENE& scene) {
+    /*for (int i = 0; i< _width * _height; i++) {
+	_image[i]=VEC3F(1.0,1.0,0);
+  }*/
 	int count=0;
     float maxMag = 0;
     for(int y = 0; y < _height; y++){
       for(int x = 0; x < _width; x++){
         int id = y * _width + x;
+		//_image[id]=VEC3F(1.0,1.0,0);
         _image[id] = 0;
         VEC3F point = _camera.pixelToWorldCoordinates(1.0 * x / _width, 1.0 * y / _height);
         VEC3F dir = normalize(point - _camera.eye());
-        RAY ray(point, dir);
+        RAY ray(point, dir); 
         _image[id] = scene.computeColor(ray, count);
-        maxMag = max(maxMag, norm(_image[id]));
+		//_image[id] = VEC3F(1.0,1.0,0);
+		maxMag = max(maxMag, norm(_image[id]));
       }
     }
-    for(int x = 0; x < _width * _height; x++)
-      _image[x] *= 1.0 / maxMag;
+    //for(int x = 0; x < _width * _height; x++)
+      //_image[x] *= 1.0 / maxMag;
   }
 
   //write image to ppm
   void writePPM(const char* filename) {
     FILE *file = fopen(filename, "w");
-    if (file == NULL)
-    {
+    if (file == NULL) {
       cout << " Couldn't open file " << filename << "! " << endl;
       return;
     }
     fprintf(file, "P6\n%d %d\n255\n", _width, _height);
     for (int y = 0; y < _height; y++)
-      for (int x = 0; x < _width; x++)
-    {
+      for (int x = 0; x < _width; x++) {
       int i = x + (_height - 1 - y) * _width;
 
       // map to the [0,255] range

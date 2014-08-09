@@ -18,19 +18,13 @@ public:
     float ratio = fmax(0.f, lightDir * normal);
     return _color * ratio;
   }
-  
+
   VEC3F specular(const VEC3F& point, const VEC3F& rayDir, const VEC3F& normal, float phong)
   {
-	VEC3F l = _position-point;
-	VEC3F v = rayDir-point;
-	l.normalize();
-	v.normalize();
-	VEC3F h = (v+l)/((v+l).getMagnitude());
 	//cout<<" s ";
     VEC3F lightDir = normalize(_position - point);
     VEC3F reflectDir = normalize(-lightDir + 2 * (normal * lightDir) * normal);
-    //float s = fmax(0.f, reflectDir * (-rayDir));
-	float s = fmax(0.f, normal*h);
+    float s = fmax(0.f, reflectDir * (-rayDir));
     return _color * powf(s, phong);
   }
   

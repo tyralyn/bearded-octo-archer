@@ -22,12 +22,6 @@ public:
   VEC3F& operator=(const VEC3F& v)
     { element[0] = v[0]; element[1] = v[1]; element[2] = v[2]; return *this; }
   VEC3F& operator=(float s) { element[0] = element[1] = element[2] = s; return *this; }
-  
-  
-  float getMagnitude(){
-	float l = element[0] * element[0] + element[1] * element[1] + element[2] * element[2];
-	return l;
-  }
 
   // Access methods
   operator       float*()       { return element; }
@@ -45,6 +39,10 @@ public:
   void normalize() {
     float l = element[0] * element[0] + element[1] * element[1] + element[2] * element[2];
     if( l!=1.0 && l!=0.0 )  *this /= sqrt(l);
+  };
+  float getMagnitude() {
+    float l = element[0] * element[0] + element[1] * element[1] + element[2] * element[2];
+    return l;
   };
 };
 ////////////////////////////////////////////////////////////////////////

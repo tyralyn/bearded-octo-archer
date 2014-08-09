@@ -38,6 +38,7 @@ public:
   virtual VEC3F jitterIn(const VEC3F& point) = 0;
   //returns the color of the primitive
   inline VEC3F& color() {return _color; }
+  void setColor(VEC3F color) {_color = color;}
   //make the primitive into a mirror
   void isMirror() { mirror = true; glass = false;}
   //make the primitive into not a mirror

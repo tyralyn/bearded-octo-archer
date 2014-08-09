@@ -4,21 +4,34 @@
 #include <cstdio>  
 #include <cstdlib>
 #include <iostream>
-#include <RENDERER.h>          
+#include <RENDERER.h>  
+#include <VEC3F.h>        
                                        
 using namespace::std; 
 
 int windowWidth;
 int windowHeight;
 RENDERER* renderer; 
+
+
   
-void display()
-{ 
+void display() { 
+ /* float* pixels = new float[windowWidth*windowHeight*3];
+  for (int i = 0; i<windowWidth*windowHeight*3; i++) {
+	pixels[i]=1.0;
+  }*/
+  
+  VEC3F* vectors = new VEC3F[windowWidth*windowHeight];
+  for (int i = 0; i< windowWidth*windowHeight; i++) {
+	vectors[i]=VEC3F(1.0,1.0,0);
+  }
+  
+//glDisable(GL_BLEND);
+  //glDisable(GL_LIGHTING);
+ // glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
   glClearColor(0,0,0,0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  glDrawPixels(windowWidth, windowHeight, GL_RGB, GL_FLOAT, renderer->image());
- 
+  glDrawPixels(windowWidth, windowHeight, GL_RGB, GL_FLOAT, renderer->image()); 
   glutSwapBuffers();      
 }    
 ////////////////////////////////////////////////////////////////////////////////// 
@@ -66,7 +79,7 @@ int main(int argc, char* argv[])
   windowHeight = 450;
 
   SCENE scene;
-  scene.setup2();
+  scene.setup();
   renderer = new RENDERER(windowWidth, windowHeight);
   renderer->render(scene);
 
